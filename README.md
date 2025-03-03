@@ -36,7 +36,7 @@ from sescorex import *
 scorer = sescorex(version='seg', rescale=True)
 refs = ["SEScore is a simple but effective next generation text generation evaluation metric", "you went to hotel"]
 outs = ["SEScore is a simple effective text evaluation metric for next generation", "you went to zoo"]
-scores_ls = scorer.score(refs, outs, 1)
+scores_ls = scorer.score(refs=refs, outs=outs, batch_size=32)
 ````
 
 ### Supported Languages
