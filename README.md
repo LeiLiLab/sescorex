@@ -13,12 +13,27 @@ pip install -r requirement/requirements.txt
 SEScoreX pretrained weights can be found in google drive: https://drive.google.com/drive/u/2/folders/1TOUXEDZOsjoq_lg616iKUyWJaK9OXhNP
 
 
-To run SEScoreX for text generation evaluation:
+To run SEScoreX for reference based text generation evaluation:
 
+
+We have SEScore2 that is only pretrained on synthetic data which only supports five languages (version: pretrained)
 ````
 from sescorex import *
+scorer = sescorex(version='pretrained', rescale=False)
+````
 
-scorer = sescorex() # load in metric with specified language, en (English), de (German), ja ('Japanese'),  es ('Spanish'), zh ('Chinese'). We have SEScore2 that is only pretrained on synthetic data which only supports five languages (mode: pretrained) and further finetuned on all available human rating data (supports up to 100 languages, mode: seg or sys, by default we choose seg).
+
+We further fine-tune the pretrained SEScore2 model using WMT17-21 DA data and WMT22 MQM data, which supports up to 100 languages. The model operates in two modes: 'seg' and 'sys'. The 'seg' mode is more effective for ranking pairs of translations, while the 'sys' mode is better suited for ranking translation systems. By default, we select the 'seg' mode.
+````
+from sescorex import *
+scorer = sescorex(version='seg', rescale=False)
+````
+
+
+You can enable the 'rescale' feature to obtain interpretable scores. In this mode, a score of '0' indicates a perfect translation, '-1' corresponds to a translation with one minor error, and '-5' represents a translation with a major error. You can estimate the number of major and minor errors in the translation by counting the multiples of -5 and -1 in the score, respectively. If you prefer the raw output scores, you can disable rescaling by setting rescale=False.
+````
+from sescorex import *
+scorer = sescorex(version='seg', rescale=True)
 refs = ["SEScore is a simple but effective next generation text generation evaluation metric", "you went to hotel"]
 outs = ["SEScore is a simple effective text evaluation metric for next generation", "you went to zoo"]
 scores_ls = scorer.score(refs, outs, 1)
