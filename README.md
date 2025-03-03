@@ -16,11 +16,11 @@ SEScoreX pretrained weights can be found in google drive: https://drive.google.c
 To run SEScoreX for text generation evaluation:
 
 ````
-from SEScore2 import *
+from sescorex import *
 
-scorer = SEScore2('seg') # load in metric with specified language, en (English), de (German), ja ('Japanese'),  es ('Spanish'), zh ('Chinese'). We have SEScore2 that is only pretrained on synthetic data which only supports five languages (mode: pretrained) and further finetuned on all available human rating data (supports up to 100 languages).
-refs = ["SEScore is a simple but effective next generation text generation evaluation metric", "SEScore it really works"]
-outs = ["SEScore is a simple effective text evaluation metric for next generation", "SEScore is not working"]
+scorer = sescorex() # load in metric with specified language, en (English), de (German), ja ('Japanese'),  es ('Spanish'), zh ('Chinese'). We have SEScore2 that is only pretrained on synthetic data which only supports five languages (mode: pretrained) and further finetuned on all available human rating data (supports up to 100 languages, mode: seg or sys, by default we choose seg).
+refs = ["SEScore is a simple but effective next generation text generation evaluation metric", "you went to hotel"]
+outs = ["SEScore is a simple effective text evaluation metric for next generation", "you went to zoo"]
 scores_ls = scorer.score(refs, outs, 1)
 ````
 
